@@ -1,0 +1,3 @@
+resources:
+- webapp_minimal.yaml
+- webapp_full.yaml

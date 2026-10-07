@@ -1,0 +1,9 @@
+# The smallest possible WebApp: one replica, reachable inside the cluster at
+# http://hello.default.svc
+apiVersion: apps.rijngshaffen.github.io/v1alpha1
+kind: WebApp
+metadata:
+  name: hello
+spec:
+  image: nginxinc/nginx-unprivileged:1.29
+  port: 8080

@@ -1,0 +1,26 @@
+version: "2"
+
+linters:
+  default: standard
+  enable:
+    - bodyclose
+    - copyloopvar
+    - errorlint
+    - misspell
+    - nilerr
+    - unconvert
+    - unparam
+  exclusions:
+    rules:
+      # Gomega is designed to be dot-imported in tests.
+      - path: _test\.go
+        text: "dot-imports|should not use dot imports"
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/Rijngshaffen/webapp-operator

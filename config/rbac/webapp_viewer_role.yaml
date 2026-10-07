@@ -1,0 +1,17 @@
+# Read-only access to WebApps. Aggregated into the built-in view role.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: webapp-viewer-role
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+- apiGroups:
+  - apps.rijngshaffen.github.io
+  resources:
+  - webapps
+  - webapps/status
+  verbs:
+  - get
+  - list
+  - watch

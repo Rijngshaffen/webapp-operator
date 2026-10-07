@@ -1,0 +1,28 @@
+# Grant to users who manage WebApps. Aggregated into the built-in admin and edit roles.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: webapp-editor-role
+  labels:
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+- apiGroups:
+  - apps.rijngshaffen.github.io
+  resources:
+  - webapps
+  - webapps/scale
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps.rijngshaffen.github.io
+  resources:
+  - webapps/status
+  verbs:
+  - get

@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Everything is deployed into this namespace and gets this name prefix.
+namespace: webapp-operator-system
+namePrefix: webapp-operator-
+
+labels:
+- pairs:
+    app.kubernetes.io/name: webapp-operator
+  includeSelectors: false
+
+resources:
+- ../crd
+- ../rbac
+- ../manager
+- metrics_service.yaml

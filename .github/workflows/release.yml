@@ -1,0 +1,41 @@
+# Pushing a tag such as v0.1.0 tests the code, pushes a multi-arch image to
+# ghcr.io and creates a GitHub release with an install.yaml pinned to that image.
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  IMG: ghcr.io/rijngshaffen/webapp-operator:${{ github.ref_name }}
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: Test
+        run: make test test-smoke
+      - name: Log in to ghcr.io
+        env:
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$REGISTRY_TOKEN" | docker login ghcr.io --username "$REGISTRY_USER" --password-stdin
+      - name: Build and push the image
+        run: |
+          docker buildx create --use
+          make docker-buildx
+      - name: Render install.yaml
+        run: make build-installer
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" dist/install.yaml --verify-tag --generate-notes

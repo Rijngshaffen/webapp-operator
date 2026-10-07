@@ -1,0 +1,13 @@
+# Tool and manager binaries, envtest control plane
+bin/
+# Rendered install manifest; attached to each GitHub release instead
+dist/
+# Test coverage
+cover.out
+*.test
+# Editors
+.idea/
+.vscode/
+*.swp
+# Local Claude Code settings
+.claude/settings.local.json

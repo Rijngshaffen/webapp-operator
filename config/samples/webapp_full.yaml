@@ -1,0 +1,26 @@
+# A WebApp using every field.
+apiVersion: apps.rijngshaffen.github.io/v1alpha1
+kind: WebApp
+metadata:
+  name: shop
+spec:
+  image: nginxinc/nginx-unprivileged:1.29
+  replicas: 3
+  port: 8080
+  servicePort: 80
+  serviceType: ClusterIP
+  healthPath: /
+  env:
+  - name: LOG_LEVEL
+    value: info
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
+  ingress:
+    host: shop.example.com
+    path: /
+    className: nginx
+    tlsSecretName: shop-tls
